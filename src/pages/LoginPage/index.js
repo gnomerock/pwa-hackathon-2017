@@ -1,6 +1,25 @@
 import React, {Component} from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { login, logout} from '../../actions';
 import './style.css';
+
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.authentication.isAuthenticated
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    login: () => {
+      dispatch(login())
+    },
+    logout: () => {
+      dispatch(logout())
+    }
+  }
+}
 
 class LoginPage extends Component {
 
@@ -9,12 +28,12 @@ class LoginPage extends Component {
     this.state = {
       redirectToReferrer: false
     }
-    this.login = this.props.login;
   }
 
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    // const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { from } =  { from: { pathname: '/' } }
     const { redirectToReferrer } = this.state
 
     if (redirectToReferrer) {
@@ -26,10 +45,13 @@ class LoginPage extends Component {
     return (
       <div className="login-bg">
         <p>This is simple login page</p>
-        <button onClick={this.login}>Log in</button>
+        <button onClick={ () => {
+          this.setState({redirectToReferrer: true})
+          this.props.login()
+        }}>Log in</button>
       </div>
     )
   }
 }
 
-export default LoginPage;
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
