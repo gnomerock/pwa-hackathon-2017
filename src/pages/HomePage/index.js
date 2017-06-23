@@ -9,7 +9,9 @@ import * as firebase from 'firebase';
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.authentication.isAuthenticated
+    isAuthenticated: state.authentication.isAuthenticated,
+    user: state.authentication.user,
+    token: state.authentication.token
   }
 }
 
@@ -27,6 +29,7 @@ class HomePage extends React.Component{
     super(props)
     this.state = {}
     this.onLogout = this.onLogout.bind(this);
+    console.log('userdata', this.props.user);
   }
 
   onLogout(e) {
@@ -41,7 +44,6 @@ class HomePage extends React.Component{
   }
 
   render() {
-
     if (!this.props.isAuthenticated) {
       return (
         <Redirect to="/login"/>
@@ -50,6 +52,12 @@ class HomePage extends React.Component{
 
     return (
       <div>
+        {/* <AppBar
+          title={<span style={styles.title}>Title</span>}
+          onTitleTouchTap={handleTouchTap}
+          iconElementLeft={<IconButton><NavigationClose /></IconButton>}
+          iconElementRight={<FlatButton label="Save" />}
+        /> */}
         <AppBar
           title={'Home'}
           showMenuIconButton={false}

@@ -27,9 +27,6 @@ class LoginPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      redirectToReferrer: false
-    }
     this.onGoogleLogin = this.onGoogleLogin.bind(this);
     this.onGoogleLoginSuccess = this.onGoogleLoginSuccess.bind(this);
   }
@@ -51,14 +48,11 @@ class LoginPage extends Component {
   }
 
   onGoogleLoginSuccess(user, token) {
-    this.setState({
-      redirectToReferrer: true
-    });
     this.props.googleLogin(user, token);
   }
 
   render() {
-    if (this.state.redirectToReferrer) {
+    if (this.props.isAuthenticated) {
       return (
         <Redirect to="/"/>
       )

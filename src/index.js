@@ -7,7 +7,8 @@ import './index.css';
 
 //redux
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { compose, applyMiddleware,createStore } from 'redux'
+import { persistStore, autoRehydrate} from 'redux-persist'
 //reducers
 import reducers from './reducers';
 
@@ -25,7 +26,13 @@ const config = {
 
 firebase.initializeApp(config);
 
-const store = createStore(reducers);
+const store = createStore(
+  reducers,
+  compose(
+    autoRehydrate()
+  )
+);
+persistStore(store);
 
 injectTapEventPlugin();
 
