@@ -9,6 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import FabMenu from '../../components/FabMenu';
+import UniGrid from '../../components/UniGrid';
 
 //redux
 import { connect } from 'react-redux';
@@ -150,6 +151,7 @@ class HomePage extends React.Component{
             <FlatButton label="Logout" onClick={ this.openLogoutDialog }/> : <FlatButton label="Login" onClick={ this.openLoginDialog }/>}
           className="appbar"
         />
+        <UniGrid/>
         <Dialog
           title="Logout"
           actions={logoutActions}
