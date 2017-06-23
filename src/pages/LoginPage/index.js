@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { login, logout} from '../../actions';
+import { login } from '../../actions';
 import './style.css';
 
 import * as firebase from 'firebase';
@@ -17,23 +17,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: () => {
-      firebase.auth().signInWithPopup(provider).then(function(result) {
-        let token = result.credential.accessToken;
-        let user = result.user;
-        console.log('user', user);
-        console.log('token', token);
-        dispatch(login(user, token))
-      }).catch(function(error) {
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        let email = error.email;
-        let credential = error.credential;
-        console.log(error);
-      });
-    },
-    logout: () => {
-      dispatch(logout())
+    googleLogin: (user, token) => {
+      dispatch(login(user, token))
     }
   }
 }
@@ -45,23 +30,39 @@ class LoginPage extends Component {
     this.state = {
       redirectToReferrer: false
     }
+    console.log(this.state);
+
     this.onGoogleLogin = this.onGoogleLogin.bind(this);
+    this.onGoogleLoginSuccess = this.onGoogleLoginSuccess.bind(this);
   }
 
   onGoogleLogin(e) {
     e.preventDefault();
-    this.setState({redirectToReferrer: true})
-    this.props.login();
+    let cb = this.onGoogleLoginSuccess;
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      let token = result.credential.accessToken;
+      let user = result.user;
+      cb(user, token)
+    }).catch(function(error) {
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      let email = error.email;
+      let credential = error.credential;
+      console.log(error);
+    });
+  }
+
+  onGoogleLoginSuccess(user, token) {
+    this.setState({
+      redirectToReferrer: true
+    });
+    this.props.googleLogin(user, token);
   }
 
   render() {
-    // const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { from } =  { from: { pathname: '/' } }
-    const { redirectToReferrer } = this.state
-
-    if (redirectToReferrer) {
+    if (this.state.redirectToReferrer) {
       return (
-        <Redirect to={from}/>
+        <Redirect to="/"/>
       )
     }
 
