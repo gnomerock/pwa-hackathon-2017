@@ -30,8 +30,6 @@ class LoginPage extends Component {
     this.state = {
       redirectToReferrer: false
     }
-    console.log(this.state);
-
     this.onGoogleLogin = this.onGoogleLogin.bind(this);
     this.onGoogleLoginSuccess = this.onGoogleLoginSuccess.bind(this);
   }

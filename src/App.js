@@ -15,23 +15,9 @@ import LoginPage from './pages/LoginPage';
 //redux
 import { connect } from 'react-redux'
 
-//actions
-import { login, logout} from './actions';
-
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.authentication.isAuthenticated
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    login: () => {
-      dispatch(login())
-    },
-    logout: () => {
-      dispatch(logout())
-    }
   }
 }
 
@@ -72,4 +58,4 @@ class App extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
