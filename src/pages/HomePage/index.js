@@ -11,6 +11,7 @@ import FontIcon from 'material-ui/FontIcon';
 import { connect } from 'react-redux';
 import { logout } from '../../actions';
 import * as firebase from 'firebase';
+import './style.css';
 
 const mapStateToProps = state => {
   return {
@@ -64,7 +65,7 @@ class HomePage extends React.Component{
   render() {
     //to see user info
     console.log(this.props.user);
-
+    console.log('is authen ', this.props.isAuthenticated);
     if (!this.props.isAuthenticated) {
       return (
         <Redirect to="/login"/>
@@ -91,6 +92,7 @@ class HomePage extends React.Component{
           title={ this.props.user.displayName }
           iconElementLeft={<Avatar src={ this.props.user.photoURL} />}
           iconElementRight={<FlatButton label="Logout" onClick={ this.openLogoutDialog }/>}
+          className="appbar"
         />
         <Dialog
           title="Logout"
