@@ -15,23 +15,9 @@ import LoginPage from './pages/LoginPage';
 //redux
 import { connect } from 'react-redux'
 
-//actions
-import { login, logout} from './actions';
-
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.authentication.isAuthenticated
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    login: () => {
-      dispatch(login())
-    },
-    logout: () => {
-      dispatch(logout())
-    }
   }
 }
 
@@ -45,25 +31,22 @@ class App extends Component {
   }
 
   render() {
-
-    const PrivateRoute = ({ component: Component, ...rest }) => (
-      <Route {...rest} render={props => (
-        this.props.isAuthenticated ? (
-          <Component {...props}/>
-        ) : (
-          <Redirect to={{
-            pathname: '/login',
-            state: { from: props.location }
-          }}/>
-        )
-      )}/>
-    )
+    // console.log('authenticated', this.props.isAuthenticated);
+    // const PrivateRoute = ({ component: Component, ...rest }) => (
+    //   <Route {...rest} render={props => (
+    //     this.props.isAuthenticated ? (
+    //       <Component {...props}/>
+    //     ) : (
+    //       <Redirect to="/login"/>
+    //     )
+    //   )}/>
+    // )
 
     return (
       <MuiThemeProvider>
         <Router>
           <div>
-            <PrivateRoute path="/" component={HomePage}/>
+            <Route exact path="/" component={HomePage}/>
             <Route path="/login" component={LoginPage}/>
           </div>
         </Router>
@@ -72,4 +55,4 @@ class App extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

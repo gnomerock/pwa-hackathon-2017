@@ -1,12 +1,12 @@
-export const login = () => {
-  console.log('DO LOGIN');
+export const login = (user, token) => {
   return {
-    type: 'LOGIN'
+    type: 'LOGIN',
+    user: user,
+    token: token
   }
 }
 
 export const logout = () => {
-  console.log('DO LOGOUT');
   return {
     type: 'LOGOUT'
   }
