@@ -139,17 +139,14 @@ class HomePage extends React.Component{
       photoURL = this.props.user.photoURL;
     }
 
-    const AuthBtn = () => {
-      if(this.props.isAuthenticated) return (<FlatButton label="Logout" onClick={ this.openLogoutDialog }/>)
-      else return (<FlatButton label="Login" onClick={ this.openLoginDialog }/>)
-    }
-
     return (
       <div>
         <AppBar
           title={ displayName }
           iconElementLeft={<Avatar src={ photoURL} />}
-          iconElementRight={ <AuthBtn/>}
+          iconElementRight={
+            this.props.isAuthenticated ?
+            <FlatButton label="Logout" onClick={ this.openLogoutDialog }/> : <FlatButton label="Login" onClick={ this.openLoginDialog }/>}
           className="appbar"
         />
         <Dialog
