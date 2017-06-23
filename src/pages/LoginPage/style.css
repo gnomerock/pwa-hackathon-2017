@@ -1,3 +1,12 @@
 .login-bg {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+.ur-title {
+  color: white;
 }

@@ -61,7 +61,8 @@ class LoginPage extends Component {
 
     return (
       <div className="login-bg">
-        <h3><FontIcon name="rocket" />Login to UniReview</h3>
+        <h1 className="ur-title">UniReview</h1>
+        <p className="ur-title">Let's review your university experiance!</p>
         <RaisedButton
           label="GOOGLE LOGIN"
           icon={<FontIcon className="muidocs-icon-custom-github"/>}
