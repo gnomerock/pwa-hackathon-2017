@@ -19,9 +19,10 @@ const mapDispatchToProps = dispatch => {
   return {
     login: () => {
       firebase.auth().signInWithPopup(provider).then(function(result) {
-        console.log('google login result', result);
         let token = result.credential.accessToken;
         let user = result.user;
+        console.log('user', user);
+        console.log('token', token);
         dispatch(login(user, token))
       }).catch(function(error) {
         let errorCode = error.code;
