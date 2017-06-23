@@ -8,6 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
+import FabMenu from '../../components/FabMenu';
 
 //redux
 import { connect } from 'react-redux';
@@ -173,6 +174,7 @@ class HomePage extends React.Component{
             />
           </div>
         </Dialog>
+        <FabMenu onClick={ ()=> { console.log('fab clicked')}}/>
       </div>
     );
   }
