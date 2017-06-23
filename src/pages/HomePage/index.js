@@ -65,7 +65,6 @@ class HomePage extends React.Component{
   render() {
     //to see user info
     console.log(this.props.user);
-    console.log('is authen ', this.props.isAuthenticated);
     if (!this.props.isAuthenticated) {
       return (
         <Redirect to="/login"/>
