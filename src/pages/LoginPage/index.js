@@ -39,11 +39,12 @@ class LoginPage extends Component {
       let user = result.user;
       cb(user, token)
     }).catch(function(error) {
-      let errorCode = error.code;
-      let errorMessage = error.message;
-      let email = error.email;
-      let credential = error.credential;
-      console.log(error);
+      //TODO: alert login error
+      // let errorCode = error.code;
+      // let errorMessage = error.message;
+      // let email = error.email;
+      // let credential = error.credential;
+      // console.log(error);
     });
   }
 
