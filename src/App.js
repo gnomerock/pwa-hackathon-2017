@@ -31,16 +31,6 @@ class App extends Component {
   }
 
   render() {
-    // console.log('authenticated', this.props.isAuthenticated);
-    // const PrivateRoute = ({ component: Component, ...rest }) => (
-    //   <Route {...rest} render={props => (
-    //     this.props.isAuthenticated ? (
-    //       <Component {...props}/>
-    //     ) : (
-    //       <Redirect to="/login"/>
-    //     )
-    //   )}/>
-    // )
 
     return (
       <MuiThemeProvider>
