@@ -7,7 +7,16 @@ import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link,Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import './style.css';
+
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.authentication.isAuthenticated,
+    user: state.authentication.user,
+    token: state.authentication.token
+  }
+}
 
 class CreateReviewPage extends React.Component{
 
@@ -32,9 +41,12 @@ class CreateReviewPage extends React.Component{
 
   addReview() {
     //push to get uid first
+    const d = new Date();
     const key = this.database.ref('review').push({
       name: this.state.name,
-      review: this.state.review
+      review: this.state.review,
+      createdAt: d.valueOf(),
+      createdBy: this.props.user
     }).key;
 
     //uplaod file
@@ -140,4 +152,4 @@ class CreateReviewPage extends React.Component{
   }
 }
 
-export default CreateReviewPage;
+export default connect(mapStateToProps)(CreateReviewPage);

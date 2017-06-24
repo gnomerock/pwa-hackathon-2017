@@ -6,6 +6,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import sample from './location.jpg';
 import { Link } from 'react-router-dom';
 import * as firebase from 'firebase';
+import moment from 'moment';
 
 class ReviewRetailPage extends React.Component{
 
@@ -14,7 +15,9 @@ class ReviewRetailPage extends React.Component{
     this.reviewId = props.match.params.id;
     this.state = {
       review: {},
-      imageUrl: null
+      imageUrl: null,
+      createdBy: null,
+      createdAt: null
     }
     this.database = firebase.database();
     this.storage = firebase.storage();
@@ -22,15 +25,22 @@ class ReviewRetailPage extends React.Component{
 
   componentDidMount() {
     this.database.ref('review/'+this.reviewId).on('value', (snap) => {
+      const createdBy = snap.val().createdBy.displayName;
+      const photoURL = snap.val().createdBy.photoURL;
+      console.log(snap.val().createdBy);
+      const createdAt = moment(snap.val().createdAt).fromNow();
       if( snap.val().imagePath ) {
         this.storage.ref( snap.val().imagePath ).getDownloadURL().then( url => {
           this.setState({
-            imageUrl: url
+            imageUrl: url,
           })
         })
       }
       this.setState({
-        review: snap.val()
+        review: snap.val(),
+        createdBy: createdBy,
+        photoURL: photoURL,
+        createdAt: createdAt
       })
     })
   }
@@ -47,9 +57,9 @@ class ReviewRetailPage extends React.Component{
         />
         <Card>
           <CardHeader
-            title="URL Avatar"
-            subtitle="3 days ago"
-            avatar="images/jsa-128.jpg"
+            title={ this.state.createdBy }
+            subtitle={ this.state.createdAt}
+            avatar={ this.state.photoURL}
           />
           <CardMedia>
             <img src={ this.state.imageUrl } alt="review image" />
