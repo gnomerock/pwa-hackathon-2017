@@ -175,7 +175,13 @@ class HomePage extends React.Component{
             />
           </div>
         </Dialog>
-        <FabMenu onClick={ ()=> { this.setState({addingDialogOpen: true}) }}/>
+        <FabMenu onClick={ ()=> {
+          if(this.props.isAuthenticated) {
+            this.setState({addingDialogOpen: true})
+          } else {
+            this.setState({showLoginDialog: true})
+          }
+        }}/>
         <AddingUniDialog
           title="Adding University"
           open={this.state.addingDialogOpen}
