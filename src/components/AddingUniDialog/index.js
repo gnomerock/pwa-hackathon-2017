@@ -1,6 +1,11 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+import './style.css';
+
+import * as firebase from 'firebase';
 
 class AddingUniDialog extends React.Component{
 
@@ -23,7 +28,7 @@ class AddingUniDialog extends React.Component{
         primary={true}
         onClick={props.onClose}
       />,
-      <FlatButton
+      <RaisedButton
         label="Add"
         primary={true}
         onClick={this.addUni}
@@ -33,11 +38,25 @@ class AddingUniDialog extends React.Component{
     return (
       <Dialog
         title={props.title || 'this is dialog'}
+        titleClassName="uni-dialog-title"
         actions={props.actions || actions}
         modal={props.modal || false}
         open={props.open || false}
+        autoScrollBodyContent={true}
       >
-        gg
+        <div>
+          <TextField
+            floatingLabelText="University Name"
+            floatingLabelFixed={true}
+            fullWidth={true}
+          /><br />
+          <br />
+          <TextField
+            floatingLabelText="University Description"
+            floatingLabelFixed={true}
+            fullWidth={true}
+          /><br />
+        </div>
       </Dialog>
     );
   }
