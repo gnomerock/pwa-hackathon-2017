@@ -35,7 +35,6 @@ class ReviewAddDialog extends React.Component{
     //uplaod file
     const imagePath = '/review/'+key+'.jpg';
     this.storage.ref(imagePath).put(this.state.imageFile).then((snap) =>{
-      console.log(snap);
       //update imagePath field
       this.database.ref('review/'+key).update({
         imagePath: imagePath
