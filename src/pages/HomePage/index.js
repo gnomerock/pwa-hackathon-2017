@@ -8,6 +8,7 @@ import FontIcon from 'material-ui/FontIcon';
 import FabMenu from '../../components/FabMenu';
 import ReviewGrid from '../../components/ReviewGrid';
 import ReviewAddDialog from '../../components/ReviewAddDialog';
+import { Redirect } from 'react-router-dom';
 
 //redux
 import { connect } from 'react-redux';
@@ -109,6 +110,7 @@ class HomePage extends React.Component{
   }
 
   render() {
+    if(this.state.addingDialogOpen) return <Redirect to="/createreview"/>
     //to see user info
     console.log(this.props.user);
 

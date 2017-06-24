@@ -1,28 +1,33 @@
 import React from 'react';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import * as firebase from 'firebase';
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import FontIcon from 'material-ui/FontIcon';
 import TextField from 'material-ui/TextField';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+import { Link,Redirect } from 'react-router-dom';
 import './style.css';
 
-import * as firebase from 'firebase';
-
-class ReviewAddDialog extends React.Component{
+class CreateReviewPage extends React.Component{
 
   constructor(props) {
     super(props)
     this.state = {
       name: '',
       review: '',
-      imageFile: '',
-      imagePreviewUrl: ''
+      imagePath: '',
+      image: {},
+      createdBy: null,
+      createdAt: null,
+      isDone: false
     }
-    this.addReview = this.addReview.bind(this)
-    this.onDataChange = this.onDataChange.bind(this)
-    this.onImageChange = this.onImageChange.bind(this)
-    this.addFile = this.addFile.bind(this)
     this.database = firebase.database();
     this.storage = firebase.storage();
+    this.onDataChange = this.onDataChange.bind(this);
+    this.addFile = this.addFile.bind(this);
+    this.onImageChange = this.onImageChange.bind(this);
+    this.addReview = this.addReview.bind(this);
   }
 
   addReview() {
@@ -45,16 +50,20 @@ class ReviewAddDialog extends React.Component{
       name: '',
       review: '',
       imageFile: '',
-      imagePreviewUrl: ''
+      imagePreviewUrl: '',
+      isDone: true
     })
   }
 
   onDataChange(e) {
-    const value = e.target.value
-    const name = e.target.name
+    e.preventDefault();
     this.setState({
-      [name]: value
-    })
+      [e.target.name]: e.target.value
+    });
+  }
+
+  addFile() {
+    this.fileInput.click();
   }
 
   onImageChange(e) {
@@ -70,47 +79,30 @@ class ReviewAddDialog extends React.Component{
     reader.readAsDataURL(file)
   }
 
-  addFile() {
-    this.fileInput.click();
-  }
-
   render() {
 
-    const props = this.props;
-
-    const actions = [
-      <FlatButton
-        label="Close"
-        primary={true}
-        onClick={props.onClose}
-      />,
-      <RaisedButton
-        label="Add"
-        primary={true}
-        onClick={this.addReview}
-      />
-    ];
+    if(this.state.isDone) return (<Redirect to="/"/>)
 
     return (
-      <Dialog
-        title={props.title || 'this is dialog'}
-        titleClassName="review-dialog-title"
-        actions={props.actions || actions}
-        modal={props.modal || false}
-        open={props.open || false}
-        autoScrollBodyContent={true}
-      >
-        <div>
+      <div>
+        <AppBar
+          title="create review"
+          iconElementLeft={
+            <IconButton containerElement={ <Link to="/"/>}>
+              <FontIcon className="fa fa-chevron-left"/>
+            </IconButton>
+          }
+        />
+        <Paper zDepth={3} className="input-container">
           <TextField
             name="name"
-            floatingLabelText="Title"
-            hintText="Your Review Title"
+            floatingLabelText="Name"
+            hintText="Name"
             floatingLabelFixed={true}
             fullWidth={true}
-            value={ this.state.name}
+            value={ this.state.name }
             onChange={ this.onDataChange}
-          /><br />
-          <br />
+          />
           <TextField
             name="review"
             floatingLabelText="Review"
@@ -118,10 +110,10 @@ class ReviewAddDialog extends React.Component{
             floatingLabelFixed={true}
             fullWidth={true}
             multiLine={true}
-            rows={3}
-            value={ this.state.review}
+            rows={1}
+            value={ this.state.review }
             onChange={ this.onDataChange}
-          /><br />
+          />
           <RaisedButton
             label="Upload Image"
             fullWidth={true}
@@ -136,11 +128,16 @@ class ReviewAddDialog extends React.Component{
             />
           </RaisedButton>
           <img src={this.state.imagePreviewUrl} alt="image preview" style={ {width: '100%'}}/>
-        </div>
-      </Dialog>
+          <RaisedButton
+            label="Create"
+            fullWidth={true}
+            primary={true}
+            onClick={this.addReview}
+          />
+        </Paper>
+      </div>
     );
   }
 }
 
-
-export default ReviewAddDialog;
+export default CreateReviewPage;

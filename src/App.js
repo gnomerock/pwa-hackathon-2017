@@ -11,6 +11,7 @@ import {
 //pages
 import HomePage from './pages/HomePage';
 import ReviewPage from './pages/ReviewPage';
+import CreateReviewPage from './pages/CreateReviewPage';
 
 //redux
 import { connect } from 'react-redux'
@@ -38,6 +39,7 @@ class App extends Component {
           <div>
             <Route exact path="/" component={HomePage}/>
             <Route path="/review/:id" component={ReviewPage}/>
+            <Route path="/createreview/" component={CreateReviewPage}/>
           </div>
         </Router>
       </MuiThemeProvider>
