@@ -7,7 +7,7 @@ import './style.css';
 
 import * as firebase from 'firebase';
 
-class PlaceAddDialog extends React.Component{
+class ReviewAddDialog extends React.Component{
 
   constructor(props) {
     super(props)
@@ -17,7 +17,7 @@ class PlaceAddDialog extends React.Component{
       imageFile: '',
       imagePreviewUrl: ''
     }
-    this.addPlace = this.addPlace.bind(this)
+    this.addReview = this.addReview.bind(this)
     this.onDataChange = this.onDataChange.bind(this)
     this.onImageChange = this.onImageChange.bind(this)
     this.addFile = this.addFile.bind(this)
@@ -25,19 +25,19 @@ class PlaceAddDialog extends React.Component{
     this.storage = firebase.storage();
   }
 
-  addPlace() {
+  addReview() {
     //push to get uid first
-    const key = this.database.ref('place').push({
+    const key = this.database.ref('review').push({
       name: this.state.name,
       review: this.state.review
     }).key;
 
     //uplaod file
-    const imagePath = '/place/'+key+'.jpg';
+    const imagePath = '/review/'+key+'.jpg';
     this.storage.ref(imagePath).put(this.state.imageFile).then((snap) =>{
       console.log(snap);
       //update imagePath field
-      this.database.ref('place/'+key).update({
+      this.database.ref('review/'+key).update({
         imagePath: imagePath
       })
     })
@@ -89,14 +89,14 @@ class PlaceAddDialog extends React.Component{
       <RaisedButton
         label="Add"
         primary={true}
-        onClick={this.addPlace}
+        onClick={this.addReview}
       />
     ];
 
     return (
       <Dialog
         title={props.title || 'this is dialog'}
-        titleClassName="place-dialog-title"
+        titleClassName="review-dialog-title"
         actions={props.actions || actions}
         modal={props.modal || false}
         open={props.open || false}
@@ -105,7 +105,8 @@ class PlaceAddDialog extends React.Component{
         <div>
           <TextField
             name="name"
-            floatingLabelText="Place Name"
+            floatingLabelText="Title"
+            hintText="Your Review Title"
             floatingLabelFixed={true}
             fullWidth={true}
             value={ this.state.name}
@@ -114,7 +115,8 @@ class PlaceAddDialog extends React.Component{
           <br />
           <TextField
             name="review"
-            floatingLabelText="Place Review"
+            floatingLabelText="Review"
+            hintText="Your Review Content..."
             floatingLabelFixed={true}
             fullWidth={true}
             multiLine={true}
@@ -143,4 +145,4 @@ class PlaceAddDialog extends React.Component{
 }
 
 
-export default PlaceAddDialog;
+export default ReviewAddDialog;

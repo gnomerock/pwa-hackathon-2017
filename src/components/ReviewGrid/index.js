@@ -24,7 +24,7 @@ const styles = {
   },
 };
 
-class PlaceGrid extends Component {
+class ReviewGrid extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,15 +32,15 @@ class PlaceGrid extends Component {
     }
     this.database = firebase.database();
     this.storage = firebase.storage();
-    this.database.ref('place').on('value', (snap)=> {
-      const prepareTiles = [];
-      _.mapObject(snap.val(), (place, key) => {
-        if(place.imagePath) {
-          this.storage.ref(place.imagePath).getDownloadURL().then( url => {
+    this.database.ref('review').on('value', (snap)=> {
+      const prepareTiles = this.state.tilesData;
+      _.mapObject(snap.val(), (review, key) => {
+        if(review.imagePath) {
+          this.storage.ref(review.imagePath).getDownloadURL().then( url => {
             prepareTiles.push({
               key: key,
-              name: place.name,
-              review: place.review,
+              name: review.name,
+              review: review.review,
               imageUrl: url
             })
             this.setState({
@@ -77,4 +77,4 @@ class PlaceGrid extends Component {
   }
 }
 
-export default PlaceGrid;
+export default ReviewGrid;
