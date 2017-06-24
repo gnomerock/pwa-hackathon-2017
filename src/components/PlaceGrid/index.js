@@ -32,16 +32,11 @@ class PlaceGrid extends Component {
     }
     this.database = firebase.database();
     this.storage = firebase.storage();
-  }
-
-  componentDidMount() {
     this.database.ref('place').on('value', (snap)=> {
       const prepareTiles = [];
       _.mapObject(snap.val(), (place, key) => {
-        console.log('url',place.imagePath);
         if(place.imagePath) {
           this.storage.ref(place.imagePath).getDownloadURL().then( url => {
-            console.log(url);
             prepareTiles.push({
               key: key,
               name: place.name,
