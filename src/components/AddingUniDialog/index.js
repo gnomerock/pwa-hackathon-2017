@@ -7,7 +7,7 @@ import './style.css';
 
 import * as firebase from 'firebase';
 
-class AddingUniDialog extends React.Component{
+class PlaceAddDialog extends React.Component{
 
   constructor(props) {
     super(props)
@@ -17,7 +17,7 @@ class AddingUniDialog extends React.Component{
       imageFile: '',
       imagePreviewUrl: ''
     }
-    this.addUni = this.addUni.bind(this)
+    this.addPlace = this.addPlace.bind(this)
     this.onDataChange = this.onDataChange.bind(this)
     this.onImageChange = this.onImageChange.bind(this)
     this.addFile = this.addFile.bind(this)
@@ -25,7 +25,7 @@ class AddingUniDialog extends React.Component{
     this.storage = firebase.storage();
   }
 
-  addUni() {
+  addPlace() {
     //push to get uid first
     const key = this.database.ref('place').push({
       name: this.state.name,
@@ -90,14 +90,14 @@ class AddingUniDialog extends React.Component{
       <RaisedButton
         label="Add"
         primary={true}
-        onClick={this.addUni}
+        onClick={this.addPlace}
       />
     ];
 
     return (
       <Dialog
         title={props.title || 'this is dialog'}
-        titleClassName="uni-dialog-title"
+        titleClassName="place-dialog-title"
         actions={props.actions || actions}
         modal={props.modal || false}
         open={props.open || false}
@@ -144,4 +144,4 @@ class AddingUniDialog extends React.Component{
 }
 
 
-export default AddingUniDialog;
+export default PlaceAddDialog;

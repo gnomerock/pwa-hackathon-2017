@@ -1,9 +1,9 @@
-.uni-dialog-title {
+.place-dialog-title {
   color: white;
   background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
 }
 
-.uni-dialog {
+.place-dialog {
   height: 100%;
   width: 100%;
 }
