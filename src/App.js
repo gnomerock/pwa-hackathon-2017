@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+
 //router
 import {
   BrowserRouter as Router,
@@ -9,7 +10,8 @@ import {
 
 //pages
 import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
+import ReviewPage from './pages/ReviewPage';
+import CreateReviewPage from './pages/CreateReviewPage';
 
 //redux
 import { connect } from 'react-redux'
@@ -36,7 +38,8 @@ class App extends Component {
         <Router>
           <div>
             <Route exact path="/" component={HomePage}/>
-            <Route path="/login" component={LoginPage}/>
+            <Route path="/review/:id" component={ReviewPage}/>
+            <Route path="/createreview/" component={CreateReviewPage}/>
           </div>
         </Router>
       </MuiThemeProvider>

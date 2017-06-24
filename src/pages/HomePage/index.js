@@ -8,6 +8,7 @@ import FontIcon from 'material-ui/FontIcon';
 import FabMenu from '../../components/FabMenu';
 import ReviewGrid from '../../components/ReviewGrid';
 import ReviewAddDialog from '../../components/ReviewAddDialog';
+import { Redirect } from 'react-router-dom';
 
 //redux
 import { connect } from 'react-redux';
@@ -109,6 +110,7 @@ class HomePage extends React.Component{
   }
 
   render() {
+    if(this.state.addingDialogOpen) return <Redirect to="/createreview"/>
     //to see user info
     console.log(this.props.user);
 
@@ -161,7 +163,7 @@ class HomePage extends React.Component{
           Do you really want to logout ?
         </Dialog>
         <Dialog
-          title="Login"
+          title="Login to enjoy this app"
           actions={loginActions}
           modal={true}
           open={this.state.showLoginDialog}
@@ -170,7 +172,7 @@ class HomePage extends React.Component{
           <div className="login-menu">
             <RaisedButton
               label="GOOGLE"
-              icon={<FontIcon className="muidocs-icon-custom-github"/>}
+              icon={<i className="fa fa-google"/>}
               onTouchTap={ this.onGoogleLoginClicked}
             />
           </div>
