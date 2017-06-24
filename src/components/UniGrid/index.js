@@ -6,6 +6,8 @@ import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import * as firebase from 'firebase';
 import _ from 'underscore';
 
+import location from './location.jpg';
+
 const styles = {
   root: {
     display: 'flex',
@@ -63,7 +65,7 @@ class UniGrid extends Component {
               subtitle={<span><b>{tile.description}</b></span>}
               actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
             >
-              <img src={tile.name} alt={tile.name}/>
+              <img src={tile.imageUrl || location} alt={tile.name}/>
             </GridTile>
           ))}
         </GridList>
