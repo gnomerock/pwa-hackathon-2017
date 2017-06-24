@@ -7,7 +7,7 @@ import './index.css';
 
 //redux
 import { Provider } from 'react-redux'
-import { compose, applyMiddleware,createStore } from 'redux'
+import { compose,createStore } from 'redux'
 import { persistStore, autoRehydrate} from 'redux-persist'
 //reducers
 import reducers from './reducers';

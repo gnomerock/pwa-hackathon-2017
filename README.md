@@ -1,2 +1,2 @@
-# Unireview
-This is Thailand University review application.
+# ReviewEveryThing
+Want to Review? Just share your opinion in this app :)
