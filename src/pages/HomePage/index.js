@@ -147,7 +147,7 @@ class HomePage extends React.Component{
           iconElementLeft={<Avatar src={ photoURL} />}
           iconElementRight={
             this.props.isAuthenticated ?
-            <FlatButton label="Logout" onClick={ this.openLogoutDialog }/> : <FlatButton label="Login" onClick={ this.openLoginDialog }/>}
+            <FlatButton label="Logout" onClick={ this.openLogoutDialog }/> : <FlatButton label="Login To Enjoy Reviewing~!" onClick={ this.openLoginDialog }/>}
           className="appbar"
         />
         <ReviewGrid/>
