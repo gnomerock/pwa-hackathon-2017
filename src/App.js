@@ -4,8 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 //router
 import {
   BrowserRouter as Router,
-  Route,
-  Redirect
+  Route
 } from 'react-router-dom'
 
 //pages

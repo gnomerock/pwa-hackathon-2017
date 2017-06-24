@@ -1,15 +1,13 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import Avatar from 'material-ui/Avatar';
-import IconButton from 'material-ui/IconButton';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import FabMenu from '../../components/FabMenu';
 import UniGrid from '../../components/UniGrid';
+import AddingUniDialog from '../../components/AddingUniDialog';
 
 //redux
 import { connect } from 'react-redux';
@@ -49,7 +47,8 @@ class HomePage extends React.Component{
     super(props)
     this.state = {
       showLoginDialog: false,
-      showLogoutDialog: false
+      showLogoutDialog: false,
+      addingDialogOpen: false
     }
     this.onLogoutClicked = this.onLogoutClicked.bind(this);
     this.onGoogleLoginClicked = this.onGoogleLoginClicked.bind(this);
@@ -172,11 +171,17 @@ class HomePage extends React.Component{
             <RaisedButton
               label="GOOGLE"
               icon={<FontIcon className="muidocs-icon-custom-github"/>}
-              onClick={ this.onGoogleLoginClicked}
+              onTouchTap={ this.onGoogleLoginClicked}
             />
           </div>
         </Dialog>
-        <FabMenu onClick={ ()=> { console.log('fab clicked')}}/>
+        <FabMenu onClick={ ()=> { this.setState({addingDialogOpen: true}) }}/>
+        <AddingUniDialog
+          title="Adding University"
+          open={this.state.addingDialogOpen}
+          onClose={ ()=> { this.setState({addingDialogOpen: false})}}
+          onAdd={ ()=> { this.setState({addingDialogOpen: false})}}
+        />
       </div>
     );
   }
