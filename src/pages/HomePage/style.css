@@ -1,5 +1,6 @@
 .appbar {
-  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  position: fixed;
+  /*background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);*/
 }
 
 .login-menu {
