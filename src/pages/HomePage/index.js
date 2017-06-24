@@ -161,7 +161,7 @@ class HomePage extends React.Component{
           Do you really want to logout ?
         </Dialog>
         <Dialog
-          title="Login"
+          title="Login to enjoy this app"
           actions={loginActions}
           modal={true}
           open={this.state.showLoginDialog}
@@ -170,7 +170,7 @@ class HomePage extends React.Component{
           <div className="login-menu">
             <RaisedButton
               label="GOOGLE"
-              icon={<FontIcon className="muidocs-icon-custom-github"/>}
+              icon={<i className="fa fa-google"/>}
               onTouchTap={ this.onGoogleLoginClicked}
             />
           </div>

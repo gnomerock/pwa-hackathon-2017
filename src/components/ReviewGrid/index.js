@@ -68,9 +68,9 @@ class ReviewGrid extends Component {
                 title={tile.name}
                 subtitle={<span><b>{tile.review}</b></span>}
                 actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-                >
-                  <img src={tile.imageUrl || location} alt={tile.name}/>
-                </GridTile>
+              >
+                <img src={tile.imageUrl || location} alt={tile.name}/>
+              </GridTile>
             </Link>
           ))}
         </GridList>
