@@ -13,18 +13,42 @@ class AddingUniDialog extends React.Component{
     super(props)
     this.state = {
       name: '',
-      description: ''
+      review: '',
+      imageFile: '',
+      imagePreviewUrl: ''
     }
     this.addUni = this.addUni.bind(this)
     this.onDataChange = this.onDataChange.bind(this)
+    this.onImageChange = this.onImageChange.bind(this)
+    this.addFile = this.addFile.bind(this)
     this.database = firebase.database();
+    this.storage = firebase.storage();
   }
 
   addUni() {
-    this.database.ref('universities').push({
+    //push to get uid first
+    const key = this.database.ref('place').push({
       name: this.state.name,
-      description: this.state.name
-    });
+      review: this.state.review
+    }).key;
+
+    //uplaod file
+    const imagePath = '/place/'+key+'.jpg';
+    this.storage.ref(imagePath).put(this.state.imageFile).then((snap) =>{
+      console.log(snap);
+    })
+
+    //update imagePath field
+    this.database.ref('place/'+key).update({
+      imagePath: imagePath
+    })
+
+    this.setState({
+      name: '',
+      description: '',
+      imageFile: '',
+      imagePreviewUrl: ''
+    })
     this.props.onAdd();
   }
 
@@ -34,6 +58,23 @@ class AddingUniDialog extends React.Component{
     this.setState({
       [name]: value
     })
+  }
+
+  onImageChange(e) {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+        imageFile: file,
+        imagePreviewUrl: reader.result
+      });
+    }
+    reader.readAsDataURL(file)
+  }
+
+  addFile() {
+    this.fileInput.click();
   }
 
   render() {
@@ -65,7 +106,7 @@ class AddingUniDialog extends React.Component{
         <div>
           <TextField
             name="name"
-            floatingLabelText="University Name"
+            floatingLabelText="Place Name"
             floatingLabelFixed={true}
             fullWidth={true}
             value={ this.state.name}
@@ -73,13 +114,29 @@ class AddingUniDialog extends React.Component{
           /><br />
           <br />
           <TextField
-            name="description"
-            floatingLabelText="University Description"
+            name="review"
+            floatingLabelText="Place Review"
             floatingLabelFixed={true}
             fullWidth={true}
-            value={ this.state.description}
+            multiLine={true}
+            rows={3}
+            value={ this.state.review}
             onChange={ this.onDataChange}
           /><br />
+          <RaisedButton
+            label="Upload Image"
+            fullWidth={true}
+            onClick={this.addFile}
+          >
+            <input
+              type="file"
+              hidden={true}
+              accept="image/*"
+              ref={(fileInput) => { this.fileInput = fileInput}}
+              onChange={this.onImageChange}
+            />
+          </RaisedButton>
+          <img src={this.state.imagePreviewUrl} alt="image preview" style={ {width: '100%'}}/>
         </div>
       </Dialog>
     );
