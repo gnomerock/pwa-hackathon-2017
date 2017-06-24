@@ -11,11 +11,29 @@ class AddingUniDialog extends React.Component{
 
   constructor(props) {
     super(props)
+    this.state = {
+      name: '',
+      description: ''
+    }
     this.addUni = this.addUni.bind(this)
+    this.onDataChange = this.onDataChange.bind(this)
+    this.database = firebase.database();
   }
 
   addUni() {
+    this.database.ref('universities').push({
+      name: this.state.name,
+      description: this.state.name
+    });
     this.props.onAdd();
+  }
+
+  onDataChange(e) {
+    const value = e.target.value
+    const name = e.target.name
+    this.setState({
+      [name]: value
+    })
   }
 
   render() {
@@ -46,15 +64,21 @@ class AddingUniDialog extends React.Component{
       >
         <div>
           <TextField
+            name="name"
             floatingLabelText="University Name"
             floatingLabelFixed={true}
             fullWidth={true}
+            value={ this.state.name}
+            onChange={ this.onDataChange}
           /><br />
           <br />
           <TextField
+            name="description"
             floatingLabelText="University Description"
             floatingLabelFixed={true}
             fullWidth={true}
+            value={ this.state.description}
+            onChange={ this.onDataChange}
           /><br />
         </div>
       </Dialog>
