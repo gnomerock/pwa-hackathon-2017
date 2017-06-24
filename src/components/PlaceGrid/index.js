@@ -24,27 +24,35 @@ const styles = {
   },
 };
 
-class UniGrid extends Component {
+class PlaceGrid extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tilesData: []
     }
     this.database = firebase.database();
+    this.storage = firebase.storage();
   }
 
   componentDidMount() {
-    this.database.ref('universities').on('value', (snap)=> {
+    this.database.ref('place').on('value', (snap)=> {
       const prepareTiles = [];
-      _.mapObject(snap.val(), (uni, key) => {
-        prepareTiles.push({
-          key: key,
-          name: uni.name,
-          description: uni.description,
-        })
-      })
-      this.setState({
-        tilesData: prepareTiles
+      _.mapObject(snap.val(), (place, key) => {
+        console.log('url',place.imagePath);
+        if(place.imagePath) {
+          this.storage.ref(place.imagePath).getDownloadURL().then( url => {
+            console.log(url);
+            prepareTiles.push({
+              key: key,
+              name: place.name,
+              review: place.review,
+              imageUrl: url
+            })
+            this.setState({
+              tilesData: prepareTiles
+            })
+          })
+        }
       })
     })
   }
@@ -62,7 +70,7 @@ class UniGrid extends Component {
             <GridTile
               key={tile.key}
               title={tile.name}
-              subtitle={<span><b>{tile.description}</b></span>}
+              subtitle={<span><b>{tile.review}</b></span>}
               actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
             >
               <img src={tile.imageUrl || location} alt={tile.name}/>
@@ -74,4 +82,4 @@ class UniGrid extends Component {
   }
 }
 
-export default UniGrid;
+export default PlaceGrid;

@@ -36,16 +36,15 @@ class PlaceAddDialog extends React.Component{
     const imagePath = '/place/'+key+'.jpg';
     this.storage.ref(imagePath).put(this.state.imageFile).then((snap) =>{
       console.log(snap);
-    })
-
-    //update imagePath field
-    this.database.ref('place/'+key).update({
-      imagePath: imagePath
+      //update imagePath field
+      this.database.ref('place/'+key).update({
+        imagePath: imagePath
+      })
     })
 
     this.setState({
       name: '',
-      description: '',
+      review: '',
       imageFile: '',
       imagePreviewUrl: ''
     })

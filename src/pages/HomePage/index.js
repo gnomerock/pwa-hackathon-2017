@@ -6,8 +6,8 @@ import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import FabMenu from '../../components/FabMenu';
-import UniGrid from '../../components/UniGrid';
-import AddingUniDialog from '../../components/AddingUniDialog';
+import PlaceGrid from '../../components/PlaceGrid';
+import PlaceAddDialog from '../../components/PlaceAddDialog';
 
 //redux
 import { connect } from 'react-redux';
@@ -150,7 +150,7 @@ class HomePage extends React.Component{
             <FlatButton label="Logout" onClick={ this.openLogoutDialog }/> : <FlatButton label="Login" onClick={ this.openLoginDialog }/>}
           className="appbar"
         />
-        <UniGrid/>
+        <PlaceGrid/>
         <Dialog
           title="Logout"
           actions={logoutActions}
@@ -182,7 +182,7 @@ class HomePage extends React.Component{
             this.setState({showLoginDialog: true})
           }
         }}/>
-        <AddingUniDialog
+        <PlaceAddDialog
           title="Adding University"
           open={this.state.addingDialogOpen}
           onClose={ ()=> { this.setState({addingDialogOpen: false})}}
