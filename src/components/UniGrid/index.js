@@ -12,8 +12,11 @@ const styles = {
   },
   gridList: {
     width: 500,
-    height: 450,
+    height: '100%',
     overflowY: 'auto',
+    paddingTop: 16,
+    paddingLeft: 16,
+    paddingRight: 16
   },
 };
 const tilesData = [
