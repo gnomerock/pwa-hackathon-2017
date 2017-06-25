@@ -6,6 +6,7 @@ import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { Link } from 'react-router-dom';
 import * as firebase from 'firebase';
 import _ from 'underscore';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import location from './location.jpg';
 
@@ -57,23 +58,29 @@ class ReviewGrid extends Component {
 
     return (
       <div style={styles.root}>
-        <GridList
-          cellHeight={180}
-          style={styles.gridList}
-        >
-          <Subheader>General</Subheader>
-          {this.state.tilesData.map((tile) => (
-            <Link to={ '/review/'+tile.key} key={tile.key}>
-              <GridTile
-                title={tile.name}
-                subtitle={<span><b>{tile.review}</b></span>}
-                actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-              >
-                <img src={tile.imageUrl || location} alt={tile.name}/>
-              </GridTile>
-            </Link>
-          ))}
-        </GridList>
+        { this.state.tilesData.length === 0 ? (
+          <div style={{ textAlign: 'center', paddingTop: 16}}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <GridList
+            cellHeight={180}
+            style={styles.gridList}
+            >
+              <Subheader>General</Subheader>
+              {this.state.tilesData.map((tile) => (
+                <Link to={ '/review/'+tile.key} key={tile.key}>
+                <GridTile
+                  title={tile.name}
+                  subtitle={<span><b>{tile.review}</b></span>}
+                  actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+                  >
+                    <img src={tile.imageUrl || location} alt={tile.name}/>
+                  </GridTile>
+                </Link>
+              ))}
+            </GridList>
+        )}
       </div>
     )
   }
