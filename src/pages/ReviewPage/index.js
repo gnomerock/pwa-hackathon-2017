@@ -116,7 +116,10 @@ class ReviewRetailPage extends React.Component{
 
     this.reviewRef.child('comment').push({
       comment: this.state.comment,
-      createdBy: this.props.user,
+      createdBy: {
+        displayName: this.props.user.displayName,
+        photoURL: this.props.user.photoURL,
+      },
       createdAt: currentDate.valueOf()
     })
     this.setState({
