@@ -43,6 +43,7 @@ class ReviewGrid extends Component {
               key: key,
               name: review.name,
               review: review.review,
+              createdBy: review.createdBy.displayName,
               imageUrl: url
             })
             this.setState({
@@ -72,7 +73,7 @@ class ReviewGrid extends Component {
                 <Link to={ '/review/'+tile.key} key={tile.key}>
                   <GridTile
                     title={tile.name}
-                    subtitle={<span><b>{tile.review}</b></span>}
+                    subtitle={<span>by <b>{tile.createdBy}</b></span>}
                   >
                     <img src={tile.imageUrl || location} alt={tile.name}/>
                   </GridTile>
