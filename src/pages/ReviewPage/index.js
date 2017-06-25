@@ -162,7 +162,7 @@ class ReviewRetailPage extends React.Component{
             <IconButton onClick={this.toggleLike}>
               { this.state.isLiked ? <FontIcon className="fa fa-heart" color={red500}></FontIcon> : <FontIcon className="fa fa-heart-o"></FontIcon>}
             </IconButton>
-            <span>{ this.state.likes} { this.state.like > 1? 'likes': 'like'}</span>
+            <span>{ this.state.likes} { this.state.like > 1? 'likes': 'like'} { this.state.comments.length } { this.state.comments.length > 1 ? 'comments': 'comment'}</span>
           </CardActions>
           <Divider/>
         </Card>
