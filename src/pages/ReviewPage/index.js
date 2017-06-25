@@ -82,7 +82,6 @@ class ReviewRetailPage extends React.Component{
         comment.key = key;
         comments.push(comment);
       });
-      console.log('comments', comments);
       this.setState({
         review: review,
         createdBy: createdBy,
