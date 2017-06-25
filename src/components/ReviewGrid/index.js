@@ -68,7 +68,6 @@ class ReviewGrid extends Component {
             cellHeight={180}
             style={styles.gridList}
             >
-              <Subheader>General</Subheader>
               {this.state.tilesData.map((tile) => (
                 <Link to={ '/review/'+tile.key} key={tile.key}>
                   <GridTile
