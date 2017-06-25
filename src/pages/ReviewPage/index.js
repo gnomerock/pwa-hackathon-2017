@@ -37,6 +37,7 @@ class ReviewRetailPage extends React.Component{
       isLoaded: false,
       isLiked: false,
       likes: 0,
+      message: ''
     }
     this.database = firebase.database();
     this.storage = firebase.storage();
@@ -81,11 +82,18 @@ class ReviewRetailPage extends React.Component{
   }
 
   toggleLike() {
-    this.reviewRef.child('like/'+this.props.user.uid).set(this.props.user)
+    if(this.state.isLiked) {
+      this.reviewRef.child('like/'+this.props.user.uid).remove();
+    } else {
+      this.reviewRef.child('like/'+this.props.user.uid).set(this.props.user);
+    }
   }
 
   comment() {
     this.reviewRef.child('like/'+this.props.user.uid).set(this.props.user)
+    this.setState({
+      message: ''
+    });
   }
 
   render() {
@@ -117,7 +125,7 @@ class ReviewRetailPage extends React.Component{
             <IconButton onClick={this.toggleLike}>
               { this.state.isLiked ? <FontIcon className="fa fa-heart" color={red500}></FontIcon> : <FontIcon className="fa fa-heart-o"></FontIcon>}
             </IconButton>
-            <span>{ this.state.likes} likes</span>
+            <span>{ this.state.likes} { this.state.like > 1? 'likes': 'like'}</span>
           </CardActions>
           <Divider/>
         </Card>
