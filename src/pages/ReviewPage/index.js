@@ -20,7 +20,7 @@ const mapStateToProps = state => {
   return {
     isAuthenticated: state.authentication.isAuthenticated,
     user: state.authentication.user,
-    token: state.authentication.token
+    credential: state.authentication.credential
   }
 }
 
@@ -45,9 +45,7 @@ class ReviewRetailPage extends React.Component{
   }
 
   componentDidMount() {
-    console.log('user', this.props.user);
-    const uid="ss";
-    // const uid = this.user.uid;
+    const uid = this.props.user.uid;
     this.database.ref('review/'+this.reviewId).on('value', (snap) => {
       const review = snap.val();
       const createdBy = snap.val().createdBy.displayName;
@@ -91,7 +89,6 @@ class ReviewRetailPage extends React.Component{
   }
 
   render() {
-    console.log('review', this.props.user);
     return (
       <div>
         <AppBar
