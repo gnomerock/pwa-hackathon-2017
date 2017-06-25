@@ -27,14 +27,14 @@ const mapStateToProps = state => {
   return {
     isAuthenticated: state.authentication.isAuthenticated,
     user: state.authentication.user,
-    token: state.authentication.token
+    credential: state.authentication.credential
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    googleLogin: (user, token) => {
-      dispatch(login(user, token))
+    googleLogin: (user, credential) => {
+      dispatch(login(user, credential))
     },
     logout: () => {
       dispatch(logout())
@@ -60,9 +60,9 @@ class HomePage extends React.Component{
     const gLoginCb = this.props.googleLogin;
     this.setState({ showLoginDialog: false});
     firebase.auth().signInWithPopup(provider).then(function(result) {
-      let token = result.credential.accessToken;
       let user = result.user;
-      gLoginCb(user, token);
+      let credential = result.credential;
+      gLoginCb(user, credential);
     }).catch(function(error) {
       //TODO: alert login error
       // let errorCode = error.code;
@@ -112,7 +112,7 @@ class HomePage extends React.Component{
   render() {
     if(this.state.addingDialogOpen) return <Redirect to="/createreview"/>
     //to see user info
-    console.log(this.props.user);
+    console.log('user',this.props.user);
 
     const logoutActions = [
       <FlatButton

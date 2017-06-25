@@ -1,7 +1,7 @@
 const initState = {
   isAuthenticated: false,
   user: null,
-  token: null,
+  credential: null,
 }
 
 const authentication = (state=initState , action) => {
@@ -10,13 +10,13 @@ const authentication = (state=initState , action) => {
       return {
         isAuthenticated: true,
         user: action.user,
-        token: action.token,
+        credential: action.credential,
       }
     case 'LOGOUT':
       return {
         isAuthenticated: false,
         user: null,
-        token: null,
+        credential: null,
       }
     default:
       return state
