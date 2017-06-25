@@ -32,9 +32,11 @@ const store = createStore(
     autoRehydrate()
   )
 );
-persistStore(store);
 
 injectTapEventPlugin();
-
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 registerServiceWorker();
+
+persistStore(store,{}, ()=> {
+  ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+  console.log('rehydrate done!');
+});
