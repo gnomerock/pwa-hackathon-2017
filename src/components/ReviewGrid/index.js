@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
+import Paper from 'material-ui/Paper';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { Link } from 'react-router-dom';
 import * as firebase from 'firebase';
@@ -12,18 +13,22 @@ import location from './location.jpg';
 
 const styles = {
   root: {
+    backgroundColor: 'grey',
+    height: '100%',
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
   },
   gridList: {
-    width: 500,
-    height: '100%',
     overflowY: 'auto',
     paddingTop: 16,
     paddingLeft: 16,
     paddingRight: 16
   },
+  paper: {
+    width: 700,
+    height: '100%',
+  }
 };
 
 class ReviewGrid extends Component {
@@ -64,10 +69,11 @@ class ReviewGrid extends Component {
             <CircularProgress />
           </div>
         ) : (
-          <GridList
-            cellHeight={180}
-            style={styles.gridList}
-            >
+          <Paper zDepth={2} style={styles.paper}>
+            <GridList
+              cellHeight={180}
+              style={styles.gridList}
+              >
               {this.state.tilesData.map((tile) => (
                 <Link to={ '/review/'+tile.key} key={tile.key}>
                   <GridTile
@@ -79,6 +85,7 @@ class ReviewGrid extends Component {
                 </Link>
               ))}
             </GridList>
+          </Paper>
         )}
       </div>
     )
