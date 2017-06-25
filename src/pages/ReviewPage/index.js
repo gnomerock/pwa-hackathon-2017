@@ -98,9 +98,12 @@ class ReviewRetailPage extends React.Component{
   toggleLike() {
     if(!this.props.isAuthenticated) return;
     if(this.state.isLiked) {
-      this.reviewRef.child('like/'+this.props.user.uid).remove();
+      this.database.ref('review/'+this.reviewId).child('like/'+this.props.user.uid).remove();
     } else {
-      this.reviewRef.child('like/'+this.props.user.uid).set(this.props.user);
+      console.log(this.props.user.uid);
+      this.database.ref('review/'+this.reviewId).child('like/'+this.props.user.uid).set({
+        displayNamethis: this.props.user.displayName
+      });
     }
   }
 
