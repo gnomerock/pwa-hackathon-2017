@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as firebase from 'firebase';
 import moment from 'moment';
+import _ from 'underscore';
 
 const mapStateToProps = state => {
   return {
@@ -37,38 +38,51 @@ class ReviewRetailPage extends React.Component{
       isLoaded: false,
       isLiked: false,
       likes: 0,
-      message: ''
+      comment: '',
+      comments: []
     }
     this.database = firebase.database();
     this.storage = firebase.storage();
     this.reviewRef = this.database.ref('review/'+this.reviewId);
     this.toggleLike = this.toggleLike.bind(this);
+    this.comment = this.comment.bind(this);
+    this.onCommentChange = this.onCommentChange.bind(this);
   }
 
   componentDidMount() {
-    const uid = this.props.user.uid;
+    let uid = '';
+    if(this.props.isAuthenticated) uid = this.props.user.uid;
     this.database.ref('review/'+this.reviewId).on('value', (snap) => {
       const review = snap.val();
-      const createdBy = snap.val().createdBy.displayName;
-      const photoURL = snap.val().createdBy.photoURL;
-      const likes = snap.val().like;
+      const createdBy = review.createdBy.displayName;
+      const photoURL = review.createdBy.photoURL;
+      const likes = review.like;
       let isLiked = false;
-      if(snap.val().like) {
-        isLiked = uid in snap.val().like;
+      if(review.like) {
+        isLiked = uid in review.like;
       }
-      const createdAt = moment(snap.val().createdAt).fromNow();
-      if( snap.val().imagePath ) {
-        this.storage.ref( snap.val().imagePath ).getDownloadURL().then( url => {
+      const createdAt = moment(review.createdAt).fromNow();
+      if( review.imagePath ) {
+        this.storage.ref( review.imagePath ).getDownloadURL().then( url => {
           this.setState({
             imageUrl: url,
           })
         })
       }
+      //count like
       let countLike = 0;
       if(likes) {
         countLike = Object.keys(likes).length;
       }
 
+      //load comment
+      const prevComments = this.state.comments;
+      const comments = [];
+      _.mapObject(review.comment, (comment, key) => {
+        comment.key = key;
+        comments.push(comment);
+      });
+      console.log('comments', comments);
       this.setState({
         review: review,
         createdBy: createdBy,
@@ -77,11 +91,13 @@ class ReviewRetailPage extends React.Component{
         likes: countLike,
         isLiked: isLiked,
         isLoaded: true,
+        comments: comments
       })
     })
   }
 
   toggleLike() {
+    if(!this.props.isAuthenticated) return;
     if(this.state.isLiked) {
       this.reviewRef.child('like/'+this.props.user.uid).remove();
     } else {
@@ -89,10 +105,26 @@ class ReviewRetailPage extends React.Component{
     }
   }
 
-  comment() {
-    this.reviewRef.child('like/'+this.props.user.uid).set(this.props.user)
+  comment(e) {
+    e.preventDefault();
+    //donothing if no message;
+    if(!this.state.comment) return;
+
+    const currentDate = new Date();
+
+    this.reviewRef.child('comment').push({
+      comment: this.state.comment,
+      createdBy: this.props.user,
+      createdAt: currentDate.valueOf()
+    })
     this.setState({
-      message: ''
+      comment: ''
+    });
+  }
+
+  onCommentChange(e) {
+    this.setState({
+      comment: e.target.value
     });
   }
 
@@ -130,28 +162,34 @@ class ReviewRetailPage extends React.Component{
           <Divider/>
         </Card>
         <List>
-          <ListItem
-            leftAvatar={<Avatar src="images/kolage-128.jpg" />}
-            primaryText={
-              <p>Menter&nbsp;&nbsp;<span style={{color: lightBlack}}>3 mins ago</span></p>
-            }
-            secondaryText="message"
-          />
-          <ListItem
-            leftAvatar={<Avatar src="images/kolage-128.jpg" />}
-            primaryText={
-              <p>Menter&nbsp;&nbsp;<span style={{color: lightBlack}}>3 mins ago</span></p>
-            }
-            secondaryText="message"
-          />
+          {
+            this.state.comments.map( comment => (
+              <ListItem
+                key={ comment.key}
+                leftAvatar={<Avatar src={comment.createdBy.photoURL} />}
+                primaryText={
+                  <p>{comment.createdBy.displayName}&nbsp;&nbsp;<span style={{color: lightBlack}}>{moment(comment.createdAt).fromNow()}</span></p>
+                }
+                secondaryText={comment.comment}
+              />
+            ))
+          }
         </List>
-        <div style={{ 'display': 'flex','flexDirection': 'row', 'padding': 16}}>
-          <TextField
-            hintText="Comment"
-            style={{ 'flex': 3}}
-          />
-          <FlatButton label="Comment" primary={true}/>
-        </div>
+        {
+          this.props.isAuthenticated && (
+            <form style={{ 'display': 'flex','flexDirection': 'row', 'padding': 16}} onSubmit={ this.comment}>
+              <TextField
+                hintText="Comment"
+                name="comment"
+                value={this.state.comment}
+                onChange={ this.onCommentChange}
+                style={{ 'flex': 3}}
+              />
+              <FlatButton label="Comment" primary={true} onClick={ this.comment}/>
+            </form>
+          )
+        }
+
       </div>
     );
   }
